@@ -2,6 +2,7 @@ package com.example.library.controller;
 
 import com.example.library.dto.BookRequestDto;
 import com.example.library.dto.BookResponseDto;
+import com.example.library.dto.BookUpdateRequestDto;
 import com.example.library.service.BookService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -26,6 +27,15 @@ public class BookController {
     public ResponseEntity<List<BookResponseDto>> findAll() {
         List<BookResponseDto> bookResponseDtos = bookService.findAll();
         return ResponseEntity.ok(bookResponseDtos);
+    }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<BookResponseDto> update(
+            @PathVariable Long id,
+            @RequestBody BookUpdateRequestDto dto
+    ) {
+        BookResponseDto bookResponseDto = bookService.update(id, dto);
+        return ResponseEntity.ok(bookResponseDto);
     }
 
 }
