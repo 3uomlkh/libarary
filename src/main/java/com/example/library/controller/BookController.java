@@ -5,10 +5,9 @@ import com.example.library.dto.BookResponseDto;
 import com.example.library.service.BookService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/books")
@@ -21,6 +20,12 @@ public class BookController {
     public ResponseEntity<BookResponseDto> save(@RequestBody BookRequestDto dto) {
         BookResponseDto bookResponseDto = bookService.save(dto);
         return ResponseEntity.ok(bookResponseDto);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<BookResponseDto>> findAll() {
+        List<BookResponseDto> bookResponseDtos = bookService.findAll();
+        return ResponseEntity.ok(bookResponseDtos);
     }
 
 }

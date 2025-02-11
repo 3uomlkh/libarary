@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -30,5 +31,12 @@ public class BookService {
         bookRepository.save(book);
 
         return new BookResponseDto(book);
+    }
+
+    public List<BookResponseDto> findAll() {
+        List<Book> books = bookRepository.findAll();
+        return books.stream()
+                .map(BookResponseDto::new)
+                .collect(Collectors.toList());
     }
 }
