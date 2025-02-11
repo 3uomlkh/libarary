@@ -6,6 +6,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Getter
 @Entity
 @Table(name = "author")
@@ -19,4 +22,11 @@ public class Author {
     @Setter
     @Column(nullable = false)
     private String name;
+
+    @OneToMany(mappedBy = "author", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<BookAuth> bookAuths = new ArrayList<>();
+
+    public Author(String name) {
+        this.name = name;
+    }
 }

@@ -6,6 +6,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Getter
 @Entity
 @Table(name = "book")
@@ -20,11 +23,20 @@ public class Book extends BaseEntity {
     @Column(nullable = false)
     private String title;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
 
+    @OneToMany(mappedBy = "book", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<BookAuth> bookAuthors = new ArrayList<>();
+
     public Book(String title) {
         this.title = title;
+    }
+
+    public void addAuthor(Author author) {
+        BookAuth bookAuth = new BookAuth(this, author);
+        this.bookAuthors.add(bookAuth);
+        author.getBookAuths().add(bookAuth);
     }
 }
